@@ -57,12 +57,36 @@ public class Tetomino : MonoBehaviour
         {
             // ブロックを右回転
             transform.Rotate(0, 0, -90);
+
+            // 位置が有効かチェック
+            if (!IsValidGridPos())
+            {
+                // 位置が無効なら戻す
+                transform.Rotate(0, 0, 90);
+            }
+            else
+            {
+                // 位置が有効ならグリッドを更新
+                Grid.Instance.UpdateGrid(transform);
+            }
         }
         // Qキーが押されたとき
         else if (Input.GetKeyDown(KeyCode.Q))
         {
             // ブロックを左回転
             transform.Rotate(0, 0, 90);
+
+            // 位置が有効かチェック
+            if (!IsValidGridPos())
+            {
+                // 位置が無効なら戻す
+                transform.Rotate(0, 0, -90);
+            }
+            else
+            {
+                // 位置が有効ならグリッドを更新
+                Grid.Instance.UpdateGrid(transform);
+            }
         }
         // Sキーが押されたとき
         else if (Input.GetKeyDown(KeyCode.S))

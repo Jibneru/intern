@@ -112,13 +112,23 @@ public class Grid : MonoBehaviour
     // 完全に埋まった行を削除し、上の行を一段下げる
     public void DeleteFullRows()
     {
+        int heightNum = 0;
+
+        // 下から何番目の行が埋まっているかのチェック
         for (int y = 0; y < height; y++)
         {
             if (IsRowFull(y))
             {
-                DeleteRow(y);
-                DescendRowsAbove(y);
+                heightNum = y;
+                break;
             }
+        }
+
+        // 見つけた行から上を消しながら下に降ろすのを埋まっている行がなくなるまで繰り返す
+        while (IsRowFull(heightNum))
+        {
+            DeleteRow(heightNum);
+            DescendRowsAbove(heightNum);
         }
     }
 
