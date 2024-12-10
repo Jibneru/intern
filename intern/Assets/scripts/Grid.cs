@@ -19,7 +19,7 @@ public class Grid : MonoBehaviour
     private void Awake()
     {
         // AssertでInstanceがあるとエラーを出す
-        Assert.IsTrue(Instance.enabled);
+        Assert.IsTrue(Instance == null);
 
         // インスタンスを設定し、DontDestroyOnLoadでシーン間で破棄されないようにする
         Instance = this;
