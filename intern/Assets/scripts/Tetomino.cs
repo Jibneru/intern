@@ -5,7 +5,7 @@ public class Tetomino : MonoBehaviour
 {
     // —‰º‚ÉŠÖ‚·‚é•Ï”
     float fall = 0;
-    public float fallSpeed = 1;
+    [SerializeField] float fallSpeed = 1;
 
     private void Update()
     {
