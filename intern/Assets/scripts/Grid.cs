@@ -5,7 +5,7 @@ using UnityEngine.Assertions;
 public class Grid : MonoBehaviour
 {
     // シングルトンインスタンス
-    public static Grid Instance {  get; private set; }
+    public static Grid Instance { get; private set; }
 
     // 壁用のゲームオブジェクト
     [SerializeField] GameObject cubeBlock;
@@ -28,7 +28,7 @@ public class Grid : MonoBehaviour
         Instance = this;
         grid = new Transform[width, height];
         DontDestroyOnLoad(gameObject);
-        
+
     }
 
     private void Start()
