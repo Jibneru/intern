@@ -1,13 +1,15 @@
 using UnityEngine;
 
+// テトリスのマス目のスクリプト
 public class Grid : MonoBehaviour
 {
     // シングルトンインスタンス
     public static Grid Instance {  get; private set; }
 
     // グリッドの幅と高さ
-    public static int width = 10;
-    public static int height = 20;
+    // Tetomino.csで使いたいため
+    public const int width = 10;
+    public const int height = 20;
 
     // グリッドを格納する2次元配列
     public static Transform[,] grid;

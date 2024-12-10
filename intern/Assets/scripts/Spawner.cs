@@ -1,5 +1,6 @@
 using UnityEngine;
 
+// ミノをランダムに生成するスクリプト
 public class Spawner : MonoBehaviour
 {
     // ミノを保存する

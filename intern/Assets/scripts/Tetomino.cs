@@ -1,5 +1,6 @@
 using UnityEngine;
 
+// ミノの動きを操作するスクリプト
 public class Tetomino : MonoBehaviour
 {
     // 落下に関する変数
