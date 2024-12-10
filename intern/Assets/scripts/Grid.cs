@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Assertions;
 
 // テトリスのマス目のスクリプト
 public class Grid : MonoBehaviour
@@ -18,16 +19,13 @@ public class Grid : MonoBehaviour
     private void Awake()
     {
         //シングルトンがすでにある場合このオブジェクトを削除
-        if (Instance != null && Instance != this)
-        {
-            Destroy(gameObject);
-        }
-        else
-        {
-            // インスタンスを設定し、DontDestroyOnLoadでシーン間で破棄されないようにする
-            Instance = this;
-            grid = new Transform[width, height];
-            DontDestroyOnLoad(gameObject);
-        }
+
+        Assert.IsTrue(Instance.enabled);
+
+        // インスタンスを設定し、DontDestroyOnLoadでシーン間で破棄されないようにする
+        Instance = this;
+        grid = new Transform[width, height];
+        DontDestroyOnLoad(gameObject);
+        
     }
 }
