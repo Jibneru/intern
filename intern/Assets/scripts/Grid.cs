@@ -18,8 +18,7 @@ public class Grid : MonoBehaviour
 
     private void Awake()
     {
-        //シングルトンがすでにある場合このオブジェクトを削除
-
+        // AssertでInstanceがあるとエラーを出す
         Assert.IsTrue(Instance.enabled);
 
         // インスタンスを設定し、DontDestroyOnLoadでシーン間で破棄されないようにする
