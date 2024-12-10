@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
@@ -12,7 +13,20 @@ public class SceneLoad : MonoBehaviour
         // 仮でスペースを押したときにシーンを切り替える
         if (Input.GetKeyDown(KeyCode.Space))
         {
-            SceneManager.LoadScene(sceneName);
+            // コルーチンを使ってシーンをロード
+            StartCoroutine(LoadAsyncScene());
+        }
+    }
+
+    private IEnumerator LoadAsyncScene()
+    {
+        // バックグラウンドでシーンをロード
+        AsyncOperation asyncLoad = SceneManager.LoadSceneAsync(sceneName);
+
+        // 非同期シーンが完全にロードされるまで待つ
+        while (!asyncLoad.isDone)
+        {
+            yield return null;
         }
     }
 }
