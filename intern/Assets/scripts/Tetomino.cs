@@ -20,24 +20,96 @@ public class Tetomino : MonoBehaviour
         {
             // ブロックを左に移動
             transform.position += new Vector3(-1, 0, 0);
+
+            // 位置が有効かチェック
+            if (!IsValidGridPos())
+            {
+                // 位置が無効なら戻す
+                transform.position += new Vector3(1, 0, 0);
+            }
+            else
+            {
+                // 位置が有効ならグリッドを更新
+                Grid.Instance.UpdateGrid(transform);
+            }
+                
         }
         // Dキーが押されたとき
         else if (Input.GetKeyDown(KeyCode.D))
         {
             // ブロックを右に移動
             transform.position += new Vector3(1, 0, 0);
+
+            // 位置が有効かチェック
+            if (!IsValidGridPos())
+            {
+                // 位置が無効なら戻す
+                transform.position += new Vector3(-1, 0, 0);
+            }
+            else
+            {
+                // 位置が有効ならグリッドを更新
+                Grid.Instance.UpdateGrid(transform);
+            }
         }
         // Eキーが押されたとき
         else if (Input.GetKeyDown(KeyCode.E))
         {
-            // ブロックを回転
+            // ブロックを右回転
             transform.Rotate(0, 0, -90);
         }
+        // Qキーが押されたとき
+        else if (Input.GetKeyDown(KeyCode.Q))
+        {
+            // ブロックを左回転
+            transform.Rotate(0, 0, 90);
+        }
         // Sキーが押されたとき
-        else if(Input.GetKeyDown(KeyCode.S))
+        else if (Input.GetKeyDown(KeyCode.S))
         {
             // ブロックを下に
             transform.position += new Vector3(0, -1, 0);
+
+            // 位置が有効かチェック
+            if (!IsValidGridPos())
+            {
+                // 位置が無効なら戻す
+                transform.position += new Vector3(0, 1, 0);
+
+                // グリッド更新
+                Grid.Instance.UpdateGrid(transform);
+
+                // 完全に埋まった行を削除
+                Grid.Instance.DeleteFullRows();
+
+                // 新しいミノを生成
+                FindAnyObjectByType<Spawner>().SpawnNext();
+                enabled = false;
+            }
+            else
+            {
+                // 位置が有効ならグリッドを更新
+                Grid.Instance.UpdateGrid(transform);
+            }
+
+            // 落下時間をリセット
+            fall = Time.time;
         }
+    }
+
+    // グリッド内で位置が有効かどうかの判定
+    bool IsValidGridPos()
+    {
+        foreach (Transform child in transform)
+        {
+            Vector2 v = Grid.Instance.RoundVector2(child.position);
+
+            if (!Grid.Instance.InsideBorder(v)) return false;
+
+            if (Grid.grid[(int)v.x, (int)v.y] != null &&
+                Grid.grid[(int)v.x, (int)v.y].parent != transform) return false;
+        }
+
+        return true;
     }
 }
