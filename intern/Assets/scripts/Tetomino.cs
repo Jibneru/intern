@@ -4,8 +4,8 @@
 public class Tetomino : MonoBehaviour
 {
     // 落下に関する変数
-    float fall = 0;
-    [SerializeField] float fallSpeed = 1;
+    private float fall = 0;
+    private float fallSpeed = 1;
 
     private void Update()
     {
