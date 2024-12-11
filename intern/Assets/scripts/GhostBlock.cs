@@ -20,6 +20,12 @@ public class GhostBlock : MonoBehaviour
         UpdateGhostPosition();
     }
 
+    public void UpdateTransform(Transform perentTransform)
+    {
+        transform.position = perentTransform.position;
+        transform.rotation = perentTransform.rotation;
+    }
+
     private void UpdateGhostPosition()
     {
         transform.position = parentTetomino.transform.position;
