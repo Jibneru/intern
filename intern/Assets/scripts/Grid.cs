@@ -138,10 +138,13 @@ public class Grid : MonoBehaviour
         {
             for (int x = 0; x < width; x++)
             {
+                // グリッドのセルにオブジェクトがあるかのチェック
                 if (grid[x, y] != null)
                 {
+                    // グリッド内のオブジェクトの親が指定される
                     if (grid[x, y].parent == Clear)
                     {
+                        // グリッド情報をクリア
                         grid[x, y] = null;
                     }
                 }
