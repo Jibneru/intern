@@ -168,6 +168,12 @@ public class Tetomino : MonoBehaviour
         {
             HardDrop();
         }
+        // Wキーが押されたとき
+        else if (Input.GetKeyDown(KeyCode.W))
+        {
+            FindAnyObjectByType<HoldPiece>().Hold(gameObject);
+            enabled = false; // 現在のミノを無効化
+        }
     }
 
     // 移動した先が範囲外や設置されたミノがないか判定
