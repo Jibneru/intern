@@ -1,10 +1,10 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
-// ƒ~ƒm‚ğƒ‰ƒ“ƒ_ƒ€‚É¶¬‚·‚éƒXƒNƒŠƒvƒg
+// ãƒŸãƒã‚’ãƒ©ãƒ³ãƒ€ãƒ ã«ç”Ÿæˆã™ã‚‹ã‚¹ã‚¯ãƒªãƒ—ãƒˆ
 public class Spawner : MonoBehaviour
 {
-    // ƒ~ƒm‚ğ•Û‘¶‚·‚é
-    public GameObject[] tetominoes;
+    // NextPieceã‚³ãƒ³ãƒãƒ¼ãƒãƒ³ãƒˆã¸ã®å‚ç…§
+    public NextPiece nextPiece;
 
     private void Start()
     {
@@ -13,7 +13,7 @@ public class Spawner : MonoBehaviour
 
     public void SpawnNext()
     {
-        int i = Random.Range(0, tetominoes.Length);
-        Instantiate(tetominoes[i], transform.position, Quaternion.identity);
+        GameObject next = nextPiece.GetNextPiece();
+        Instantiate(next, transform.position, Quaternion.identity);
     }
 }
