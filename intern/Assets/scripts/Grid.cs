@@ -132,7 +132,7 @@ public class Grid : MonoBehaviour
     }
 
     // 特定のグリッド情報を削除
-    public void GridClear(Transform Clear)
+    public void ClearGrid(Transform Clear)
     {
         for (int y = 0; y < height; y++)
         {
@@ -155,7 +155,7 @@ public class Grid : MonoBehaviour
     // グリッド情報の更新
     public void UpdateGrid(Transform nowTransform)
     {
-        GridClear(nowTransform);
+        ClearGrid(nowTransform);
 
         foreach (Transform child in nowTransform)
         {

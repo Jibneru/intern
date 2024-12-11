@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-// ミノのホールド昨日を制御するスクリプト
+// ミノのホールド機能を制御するスクリプト
 public class HoldPiece : MonoBehaviour
 {
     // ホールドされたミノ
@@ -12,7 +12,7 @@ public class HoldPiece : MonoBehaviour
     public void Hold(GameObject currentTetomino)
     {
         // グリッドから現在のミノの情報を削除
-        Grid.Instance.GridClear(currentTetomino.transform);
+        Grid.Instance.ClearGrid(currentTetomino.transform);
 
         // ホールドが空の時
         if (holdTetomino == null)
