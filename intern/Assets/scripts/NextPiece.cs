@@ -15,7 +15,7 @@ public class NextPiece : MonoBehaviour
     // 表示中のプレビューを管理
     private List<GameObject> currentPreviews = new List<GameObject>();
 
-    // プレビューのスケール
+    // プレビュー用のスケール
     private Vector3 previewScale = new Vector3(0.5f, 0.5f, 0.5f);
 
     private void Start()
