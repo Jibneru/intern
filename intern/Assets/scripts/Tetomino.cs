@@ -14,12 +14,20 @@ public class Tetomino : MonoBehaviour
         // 自動落下処理
         if (Time.time - fall >= fallSpeed)
         {
-            Fall();
+            if (!Fall())
+            {
+                // 完全に埋まった行を削除
+                Grid.Instance.DeleteFullRows();
+
+                // 新しいミノを生成
+                FindAnyObjectByType<Spawner>().SpawnNext();
+                enabled = false;
+            }
         }
     }
 
     // 自動または手動での落下処理
-    void Fall()
+    private bool Fall()
     {
         // ブロックを下に
         transform.position += new Vector3(0, -1, 0);
@@ -33,12 +41,7 @@ public class Tetomino : MonoBehaviour
             // グリッド更新
             Grid.Instance.UpdateGrid(transform);
 
-            // 完全に埋まった行を削除
-            Grid.Instance.DeleteFullRows();
-
-            // 新しいミノを生成
-            FindAnyObjectByType<Spawner>().SpawnNext();
-            enabled = false;
+            return false;
         }
         else
         {
@@ -48,7 +51,7 @@ public class Tetomino : MonoBehaviour
 
         // 落下時間をリセット
         fall = Time.time;
-
+        return true;
     }
 
     // ハードドロップ処理
