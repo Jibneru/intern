@@ -27,6 +27,8 @@ public class Tetomino : MonoBehaviour
     }
 
     // 自動または手動での落下処理
+    // ブロックを下に移動させる時に下に何もなければ:true
+    // 移動させる時にグリッドの範囲外や設置されているミノがあれば:false
     private bool Fall()
     {
         // ブロックを下に
@@ -168,7 +170,7 @@ public class Tetomino : MonoBehaviour
         }
     }
 
-    // グリッド内で位置が有効かどうかの判定
+    // 移動した先が範囲外や設置されたミノがないか判定
     bool IsValidGridPos()
     {
         foreach (Transform child in transform)
