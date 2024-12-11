@@ -4,8 +4,8 @@
 public class Tetomino : MonoBehaviour
 {
     // 落下に関する変数
-    float fall = 0;
-    [SerializeField] float fallSpeed = 1;
+    private float fall = 0;
+    private float fallSpeed = 1;
 
     private void Update()
     {
@@ -14,12 +14,22 @@ public class Tetomino : MonoBehaviour
         // 自動落下処理
         if (Time.time - fall >= fallSpeed)
         {
-            Fall();
+            if (!Fall())
+            {
+                // 完全に埋まった行を削除
+                Grid.Instance.DeleteFullRows();
+
+                // 新しいミノを生成
+                FindAnyObjectByType<Spawner>().SpawnNext();
+                enabled = false;
+            }
         }
     }
 
     // 自動または手動での落下処理
-    void Fall()
+    // ブロックを下に移動させる時に下に何もなければ:true
+    // 移動させる時にグリッドの範囲外や設置されているミノがあれば:false
+    private bool Fall()
     {
         // ブロックを下に
         transform.position += new Vector3(0, -1, 0);
@@ -33,12 +43,7 @@ public class Tetomino : MonoBehaviour
             // グリッド更新
             Grid.Instance.UpdateGrid(transform);
 
-            // 完全に埋まった行を削除
-            Grid.Instance.DeleteFullRows();
-
-            // 新しいミノを生成
-            FindAnyObjectByType<Spawner>().SpawnNext();
-            enabled = false;
+            return false;
         }
         else
         {
@@ -48,7 +53,7 @@ public class Tetomino : MonoBehaviour
 
         // 落下時間をリセット
         fall = Time.time;
-
+        return true;
     }
 
     // ハードドロップ処理
@@ -165,7 +170,7 @@ public class Tetomino : MonoBehaviour
         }
     }
 
-    // グリッド内で位置が有効かどうかの判定
+    // 移動した先が範囲外や設置されたミノがないか判定
     bool IsValidGridPos()
     {
         foreach (Transform child in transform)
