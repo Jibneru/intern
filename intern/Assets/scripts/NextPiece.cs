@@ -6,8 +6,12 @@ public class NextPiece : MonoBehaviour
     // ミノのプレファブリスト
     public GameObject[] tetominoes;
 
+    // ゴーストのプレファブリスト
+    public GameObject[] ghostPrefab;
+
     // 後から追加されて前から取り出したいためQueueを使用
     Queue<GameObject> nextQueue = new Queue<GameObject>();
+    Queue<GameObject> nextGhostQueue = new Queue<GameObject>();
 
     // 次のミノを表示する位置の配列
     public Transform[] previewPositions;
@@ -36,11 +40,18 @@ public class NextPiece : MonoBehaviour
         return next;
     }
 
+    public GameObject GetGhostPiece()
+    {
+        GameObject ghost = nextGhostQueue.Dequeue();
+        return ghost;
+    }
+
     // キューにミノを追加
     private void AddNextPieceToQueue()
     {
         int randomIndex = Random.Range(0, tetominoes.Length);
         nextQueue.Enqueue(tetominoes[randomIndex]);
+        nextGhostQueue.Enqueue(ghostPrefab[randomIndex]);
     }
 
     // NextPieceのプレビュー更新
