@@ -1,5 +1,4 @@
-﻿using System;
-using UnityEngine;
+﻿using UnityEngine;
 
 // ミノのホールド昨日を制御するスクリプト
 public class HoldPiece : MonoBehaviour
