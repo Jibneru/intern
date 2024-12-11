@@ -25,6 +25,7 @@ public class NextPiece : MonoBehaviour
         {
             AddNextPieceToQueue();
         }
+        UpdatePreviews();
     }
 
     // キューの先頭からミノを取得
