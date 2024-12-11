@@ -1,127 +1,176 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 
-// ƒ~ƒm‚Ì“®‚«‚ğ‘€ì‚·‚éƒXƒNƒŠƒvƒg
+// ãƒŸãƒã®å‹•ãã‚’æ“ä½œã™ã‚‹ã‚¹ã‚¯ãƒªãƒ—ãƒˆ
 public class Tetomino : MonoBehaviour
 {
-    // —‰º‚ÉŠÖ‚·‚é•Ï”
-    float fall = 0;
-    [SerializeField] float fallSpeed = 1;
+    // è½ä¸‹ã«é–¢ã™ã‚‹å¤‰æ•°
+    private float fall = 0;
+    private float fallSpeed = 1;
 
     private void Update()
     {
         CheckUserInput();
+
+        // è‡ªå‹•è½ä¸‹å‡¦ç†
+        if (Time.time - fall >= fallSpeed)
+        {
+            if (!Fall())
+            {
+                // å®Œå…¨ã«åŸ‹ã¾ã£ãŸè¡Œã‚’å‰Šé™¤
+                Grid.Instance.DeleteFullRows();
+
+                // æ–°ã—ã„ãƒŸãƒã‚’ç”Ÿæˆ
+                FindAnyObjectByType<Spawner>().SpawnNext();
+                enabled = false;
+            }
+        }
     }
 
-    // ƒ†[ƒU[“ü—Íƒ`ƒFƒbƒN
+    // è‡ªå‹•ã¾ãŸã¯æ‰‹å‹•ã§ã®è½ä¸‹å‡¦ç†
+    // ãƒ–ãƒ­ãƒƒã‚¯ã‚’ä¸‹ã«ç§»å‹•ã•ã›ã‚‹æ™‚ã«ä¸‹ã«ä½•ã‚‚ãªã‘ã‚Œã°:true
+    // ç§»å‹•ã•ã›ã‚‹æ™‚ã«ã‚°ãƒªãƒƒãƒ‰ã®ç¯„å›²å¤–ã‚„è¨­ç½®ã•ã‚Œã¦ã„ã‚‹ãƒŸãƒãŒã‚ã‚Œã°:false
+    private bool Fall()
+    {
+        // ãƒ–ãƒ­ãƒƒã‚¯ã‚’ä¸‹ã«
+        transform.position += new Vector3(0, -1, 0);
+
+        // ä½ç½®ãŒæœ‰åŠ¹ã‹ãƒã‚§ãƒƒã‚¯
+        if (!IsValidGridPos())
+        {
+            // ä½ç½®ãŒç„¡åŠ¹ãªã‚‰æˆ»ã™
+            transform.position += new Vector3(0, 1, 0);
+
+            // ã‚°ãƒªãƒƒãƒ‰æ›´æ–°
+            Grid.Instance.UpdateGrid(transform);
+
+            return false;
+        }
+        else
+        {
+            // ä½ç½®ãŒæœ‰åŠ¹ãªã‚‰ã‚°ãƒªãƒƒãƒ‰ã‚’æ›´æ–°
+            Grid.Instance.UpdateGrid(transform);
+        }
+
+        // è½ä¸‹æ™‚é–“ã‚’ãƒªã‚»ãƒƒãƒˆ
+        fall = Time.time;
+        return true;
+    }
+
+    // ãƒãƒ¼ãƒ‰ãƒ‰ãƒ­ãƒƒãƒ—å‡¦ç†
+    void HardDrop()
+    {
+        while (IsValidGridPos())
+        {
+            transform.position += new Vector3(0, -1, 0);
+        }
+
+        // ä½ç½®ãŒç„¡åŠ¹ãªã‚‰æˆ»ã™
+        transform.position += new Vector3(0, 1, 0);
+
+        // ã‚°ãƒªãƒƒãƒ‰æ›´æ–°
+        Grid.Instance.UpdateGrid(transform);
+
+        // å®Œå…¨ã«åŸ‹ã¾ã£ãŸè¡Œã‚’å‰Šé™¤
+        Grid.Instance.DeleteFullRows();
+
+        // æ–°ã—ã„ãƒŸãƒã‚’ç”Ÿæˆ
+        FindAnyObjectByType<Spawner>().SpawnNext();
+        enabled = false;
+    }
+
+    // ãƒ¦ãƒ¼ã‚¶ãƒ¼å…¥åŠ›ãƒã‚§ãƒƒã‚¯
     void CheckUserInput()
     {
-        // AƒL[‚ª‰Ÿ‚³‚ê‚½‚Æ‚«
+        // Aã‚­ãƒ¼ãŒæŠ¼ã•ã‚ŒãŸã¨ã
         if (Input.GetKeyDown(KeyCode.A))
         {
-            // ƒuƒƒbƒN‚ğ¶‚ÉˆÚ“®
+            // ãƒ–ãƒ­ãƒƒã‚¯ã‚’å·¦ã«ç§»å‹•
             transform.position += new Vector3(-1, 0, 0);
 
-            // ˆÊ’u‚ª—LŒø‚©ƒ`ƒFƒbƒN
+            // ä½ç½®ãŒæœ‰åŠ¹ã‹ãƒã‚§ãƒƒã‚¯
             if (!IsValidGridPos())
             {
-                // ˆÊ’u‚ª–³Œø‚È‚ç–ß‚·
+                // ä½ç½®ãŒç„¡åŠ¹ãªã‚‰æˆ»ã™
                 transform.position += new Vector3(1, 0, 0);
             }
             else
             {
-                // ˆÊ’u‚ª—LŒø‚È‚çƒOƒŠƒbƒh‚ğXV
+                // ä½ç½®ãŒæœ‰åŠ¹ãªã‚‰ã‚°ãƒªãƒƒãƒ‰ã‚’æ›´æ–°
                 Grid.Instance.UpdateGrid(transform);
             }
                 
         }
-        // DƒL[‚ª‰Ÿ‚³‚ê‚½‚Æ‚«
+        // Dã‚­ãƒ¼ãŒæŠ¼ã•ã‚ŒãŸã¨ã
         else if (Input.GetKeyDown(KeyCode.D))
         {
-            // ƒuƒƒbƒN‚ğ‰E‚ÉˆÚ“®
+            // ãƒ–ãƒ­ãƒƒã‚¯ã‚’å³ã«ç§»å‹•
             transform.position += new Vector3(1, 0, 0);
 
-            // ˆÊ’u‚ª—LŒø‚©ƒ`ƒFƒbƒN
+            // ä½ç½®ãŒæœ‰åŠ¹ã‹ãƒã‚§ãƒƒã‚¯
             if (!IsValidGridPos())
             {
-                // ˆÊ’u‚ª–³Œø‚È‚ç–ß‚·
+                // ä½ç½®ãŒç„¡åŠ¹ãªã‚‰æˆ»ã™
                 transform.position += new Vector3(-1, 0, 0);
             }
             else
             {
-                // ˆÊ’u‚ª—LŒø‚È‚çƒOƒŠƒbƒh‚ğXV
+                // ä½ç½®ãŒæœ‰åŠ¹ãªã‚‰ã‚°ãƒªãƒƒãƒ‰ã‚’æ›´æ–°
                 Grid.Instance.UpdateGrid(transform);
             }
         }
-        // EƒL[‚ª‰Ÿ‚³‚ê‚½‚Æ‚«
+        // Eã‚­ãƒ¼ãŒæŠ¼ã•ã‚ŒãŸã¨ã
         else if (Input.GetKeyDown(KeyCode.E))
         {
-            // ƒuƒƒbƒN‚ğ‰E‰ñ“]
+            // ãƒ–ãƒ­ãƒƒã‚¯ã‚’å³å›è»¢
             transform.Rotate(0, 0, -90);
 
-            // ˆÊ’u‚ª—LŒø‚©ƒ`ƒFƒbƒN
+            // ä½ç½®ãŒæœ‰åŠ¹ã‹ãƒã‚§ãƒƒã‚¯
             if (!IsValidGridPos())
             {
-                // ˆÊ’u‚ª–³Œø‚È‚ç–ß‚·
+                // ä½ç½®ãŒç„¡åŠ¹ãªã‚‰æˆ»ã™
                 transform.Rotate(0, 0, 90);
             }
             else
             {
-                // ˆÊ’u‚ª—LŒø‚È‚çƒOƒŠƒbƒh‚ğXV
+                // ä½ç½®ãŒæœ‰åŠ¹ãªã‚‰ã‚°ãƒªãƒƒãƒ‰ã‚’æ›´æ–°
                 Grid.Instance.UpdateGrid(transform);
             }
         }
-        // QƒL[‚ª‰Ÿ‚³‚ê‚½‚Æ‚«
+        // Qã‚­ãƒ¼ãŒæŠ¼ã•ã‚ŒãŸã¨ã
         else if (Input.GetKeyDown(KeyCode.Q))
         {
-            // ƒuƒƒbƒN‚ğ¶‰ñ“]
+            // ãƒ–ãƒ­ãƒƒã‚¯ã‚’å·¦å›è»¢
             transform.Rotate(0, 0, 90);
 
-            // ˆÊ’u‚ª—LŒø‚©ƒ`ƒFƒbƒN
+            // ä½ç½®ãŒæœ‰åŠ¹ã‹ãƒã‚§ãƒƒã‚¯
             if (!IsValidGridPos())
             {
-                // ˆÊ’u‚ª–³Œø‚È‚ç–ß‚·
+                // ä½ç½®ãŒç„¡åŠ¹ãªã‚‰æˆ»ã™
                 transform.Rotate(0, 0, -90);
             }
             else
             {
-                // ˆÊ’u‚ª—LŒø‚È‚çƒOƒŠƒbƒh‚ğXV
+                // ä½ç½®ãŒæœ‰åŠ¹ãªã‚‰ã‚°ãƒªãƒƒãƒ‰ã‚’æ›´æ–°
                 Grid.Instance.UpdateGrid(transform);
             }
         }
-        // SƒL[‚ª‰Ÿ‚³‚ê‚½‚Æ‚«
+        // Sã‚­ãƒ¼ãŒæŠ¼ã•ã‚ŒãŸã¨ãï¼ˆã‚½ãƒ•ãƒˆãƒ‰ãƒ­ãƒƒãƒ—ï¼‰
         else if (Input.GetKeyDown(KeyCode.S))
         {
-            // ƒuƒƒbƒN‚ğ‰º‚É
-            transform.position += new Vector3(0, -1, 0);
-
-            // ˆÊ’u‚ª—LŒø‚©ƒ`ƒFƒbƒN
-            if (!IsValidGridPos())
-            {
-                // ˆÊ’u‚ª–³Œø‚È‚ç–ß‚·
-                transform.position += new Vector3(0, 1, 0);
-
-                // ƒOƒŠƒbƒhXV
-                Grid.Instance.UpdateGrid(transform);
-
-                // Š®‘S‚É–„‚Ü‚Á‚½s‚ğíœ
-                Grid.Instance.DeleteFullRows();
-
-                // V‚µ‚¢ƒ~ƒm‚ğ¶¬
-                FindAnyObjectByType<Spawner>().SpawnNext();
-                enabled = false;
-            }
-            else
-            {
-                // ˆÊ’u‚ª—LŒø‚È‚çƒOƒŠƒbƒh‚ğXV
-                Grid.Instance.UpdateGrid(transform);
-            }
-
-            // —‰ºŠÔ‚ğƒŠƒZƒbƒg
-            fall = Time.time;
+            fallSpeed = 0.1f; // è½ä¸‹é€Ÿåº¦ã‚’æ—©ãã™ã‚‹
+        }
+        else if (Input.GetKeyUp(KeyCode.S))
+        {
+            fallSpeed = 1.0f; // è½ä¸‹é€Ÿåº¦ã‚’å…ƒã«æˆ»ã™
+        }
+        // LeftShiftã‚­ãƒ¼ãŒæŠ¼ã•ã‚ŒãŸã¨ãï¼ˆãƒãƒ¼ãƒ‰ãƒ‰ãƒ­ãƒƒãƒ—ï¼‰
+        else if (Input.GetKeyDown(KeyCode.LeftShift))
+        {
+            HardDrop();
         }
     }
 
-    // ƒOƒŠƒbƒh“à‚ÅˆÊ’u‚ª—LŒø‚©‚Ç‚¤‚©‚Ì”»’è
+    // ç§»å‹•ã—ãŸå…ˆãŒç¯„å›²å¤–ã‚„è¨­ç½®ã•ã‚ŒãŸãƒŸãƒãŒãªã„ã‹åˆ¤å®š
     bool IsValidGridPos()
     {
         foreach (Transform child in transform)
