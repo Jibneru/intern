@@ -40,11 +40,11 @@ public class Grid : MonoBehaviour
         }
 
         // 縦一列に生成（左右）
-        for (int i = 0; i < height; i++)
+        for (int i = 0; i <= height; i++)
         {
             Instantiate(cubeBlock, new Vector3(-1.0f, i - 1.0f, 0), Quaternion.identity);
         }
-        for (int i = 0; i < height; i++)
+        for (int i = 0; i <= height; i++)
         {
             Instantiate(cubeBlock, new Vector3(width, i - 1.0f, 0), Quaternion.identity);
         }
