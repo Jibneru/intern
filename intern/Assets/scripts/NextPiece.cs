@@ -21,8 +21,8 @@ public class NextPiece : MonoBehaviour
     // プレビュー用のスケール
     private Vector3 previewScale = new Vector3(0.5f, 0.5f, 1.0f);
 
-    // 現在の操作ミノ(ホールドの時に使いたいためpublic)
-    [System.NonSerialized] public GameObject currentTetomino;
+    // 現在の操作ミノ
+    private GameObject currentTetomino;
 
     // ゴーストブロック
     private GameObject ghostTetomino;
