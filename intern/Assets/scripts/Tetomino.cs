@@ -100,6 +100,7 @@ public class Tetomino : MonoBehaviour
             {
                 // 位置が有効ならグリッドを更新
                 Grid.Instance.UpdateGrid(transform);
+                FindAnyObjectByType<GhostBlock>().UpdateGhostPosition();
             }
                 
         }
@@ -119,6 +120,7 @@ public class Tetomino : MonoBehaviour
             {
                 // 位置が有効ならグリッドを更新
                 Grid.Instance.UpdateGrid(transform);
+                FindAnyObjectByType<GhostBlock>().UpdateGhostPosition();
             }
         }
         // Eキーが押されたとき
@@ -137,6 +139,7 @@ public class Tetomino : MonoBehaviour
             {
                 // 位置が有効ならグリッドを更新
                 Grid.Instance.UpdateGrid(transform);
+                FindAnyObjectByType<GhostBlock>().UpdateGhostPosition();
             }
         }
         // Qキーが押されたとき
@@ -155,6 +158,7 @@ public class Tetomino : MonoBehaviour
             {
                 // 位置が有効ならグリッドを更新
                 Grid.Instance.UpdateGrid(transform);
+                FindAnyObjectByType<GhostBlock>().UpdateGhostPosition();
             }
         }
         // Sキーが押されたとき（ソフトドロップ）
