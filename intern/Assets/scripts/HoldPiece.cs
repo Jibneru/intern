@@ -20,7 +20,7 @@ public class HoldPiece : MonoBehaviour
         if (holdTetomino == null)
         {
             holdTetomino = currentTetomino;
-            holdTetomino.transform.position = hodlPosition.position;
+            currentTetomino.transform.position = hodlPosition.position;
             Destroy(currentTetomino.GetComponent<Tetomino>());
 
             // 新しいミノを生成
@@ -36,7 +36,7 @@ public class HoldPiece : MonoBehaviour
             Destroy(holdTetomino);
 
             holdTetomino = currentTetomino;
-            holdTetomino.transform.position = hodlPosition.position;
+            currentTetomino.transform.position = hodlPosition.position;
             Destroy(currentTetomino.GetComponent<Tetomino>());
 
             // ホールドから出たミノを操作ミノに登録

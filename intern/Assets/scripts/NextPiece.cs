@@ -56,7 +56,7 @@ public class NextPiece : MonoBehaviour
         UpdatePreviews();
     }
 
-    // 操作するミノを生成(ホールドから出てきた時はture)
+    // 操作するミノを生成(ホールドから出てきた時はtureにする)
     public void CreatePiece(GameObject tetomino, bool isHold = false)
     {
         currentTetomino = Instantiate(tetomino, transform.position, Quaternion.identity);
