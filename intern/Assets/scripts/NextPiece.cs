@@ -20,7 +20,7 @@ public class NextPiece : MonoBehaviour
     private List<GameObject> currentPreviews = new List<GameObject>();
 
     // プレビュー用のスケール
-    private Vector3 previewScale = new Vector3(0.5f, 0.5f, 0.5f);
+    private Vector3 previewScale = new Vector3(0.5f, 0.5f, 1.0f);
 
     private void Start()
     {
@@ -29,6 +29,7 @@ public class NextPiece : MonoBehaviour
         {
             AddNextPieceToQueue();
         }
+        UpdatePreviews();
     }
 
     // キューの先頭からミノを取得
