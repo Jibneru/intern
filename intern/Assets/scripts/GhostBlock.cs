@@ -41,6 +41,7 @@ public class GhostBlock : MonoBehaviour
         transform.position += new Vector3(0, 1, 0);
     }
 
+    // 移動した先が範囲外や設置されたミノがないか判定
     private bool IsValidGhostPosition()
     {
         foreach (Transform child in transform)
