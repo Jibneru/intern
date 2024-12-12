@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class NextPiece : MonoBehaviour
 {
@@ -64,6 +65,9 @@ public class NextPiece : MonoBehaviour
         if (!IsValidGridPos(currentTetomino.transform))
         {
             FindAnyObjectByType<SceneLoad>().SceneLoading();
+            Destroy(currentTetomino);
+            Destroy(ghostTetomino);
+            return;
         }
 
         if (isHold)

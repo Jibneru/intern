@@ -3,6 +3,7 @@ using UnityEngine.UI;
 
 public class Result : MonoBehaviour
 {
+    // スコア表示用のテキスト
     public Text scoreText;
     private int scoreResult;
 

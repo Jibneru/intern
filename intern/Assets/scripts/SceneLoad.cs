@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.SceneManagement;
 
 // シーン切り替えを行うスクリプト
@@ -10,15 +9,15 @@ public class SceneLoad : MonoBehaviour
 
     [SerializeField] bool isPushKey = true;
 
-    private async void Update()
+    private void Update()
     {
         if (isPushKey)
         {
             // 仮でスペースを押したときにシーンを切り替える
-            if (Input.GetKeyDown(KeyCode.Space))
+            if (Input.GetKeyDown(KeyCode.Mouse0) || Input.GetKeyDown(KeyCode.Return))
             {
                 // 完了するまで実行を中断しながらロードする
-                await SceneManager.LoadSceneAsync(sceneName);
+                SceneLoading();
             }
         }
     }

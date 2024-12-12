@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.Assertions;
 using UnityEngine.UI;
 
 public class ScoreManager : MonoBehaviour
@@ -7,18 +6,14 @@ public class ScoreManager : MonoBehaviour
     // シングルトンインスタンス
     public static ScoreManager Instance { get; private set; }
 
+    // スコア表示用のテキスト
     public Text scoreText;
-
     private int score;
 
     private void Awake()
     {
-        // AssertでInstanceがあるとエラーを出す
-        Assert.IsTrue(Instance == null);
-
-        // インスタンスを設定し、DontDestroyOnLoadでシーン間で破棄されないようにする
+        // インスタンスを設定
         Instance = this;
-        DontDestroyOnLoad(gameObject);
     }
 
     private void Start()
@@ -38,7 +33,7 @@ public class ScoreManager : MonoBehaviour
     {
         if (scoreText != null)
         {
-            scoreText.text = "Score: " + score;
+            scoreText.text = "Score: " + score.ToString();
         }
     }
 
