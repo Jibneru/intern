@@ -3,16 +3,12 @@
 // ゴーストブロック制御用スクリプト
 public class GhostBlock : MonoBehaviour
 {
-    public Transform parentTetomino;
-    private Vector3[] childOffsets;
+    // 操作中のミノを追跡
+    [System.NonSerialized] Transform parentTetomino;
 
     private void Start()
     {
-        childOffsets = new Vector3[parentTetomino.childCount];
-        for (int i = 0; i < parentTetomino.childCount; i++)
-        {
-            childOffsets[i] = parentTetomino.GetChild(i).position;
-        }
+        UpdateChildOffest();
     }
 
     private void Update()
@@ -20,14 +16,20 @@ public class GhostBlock : MonoBehaviour
         UpdateGhostPosition();
     }
 
-    public void UpdateTransform(Transform perentTransform)
+    // ゴーストブロックの相対位置を親のミノに基づき更新
+    private void UpdateChildOffest()
     {
-        transform.position = perentTransform.position;
-        transform.rotation = perentTransform.rotation;
+        // 子ブロックの位置をゴーストに反映
+        for (int i = 0; i < parentTetomino.childCount; i++)
+        {
+            transform.GetChild(i).localPosition = parentTetomino.GetChild(i).localPosition;
+        }
     }
-
+    
+    // ゴーストブロックを一番下まで移動させる
     private void UpdateGhostPosition()
     {
+        // ミノの現在位置を基準
         transform.position = parentTetomino.transform.position;
         transform.rotation = parentTetomino.transform.rotation;
 
@@ -45,12 +47,18 @@ public class GhostBlock : MonoBehaviour
         {
             Vector2 v = Grid.Instance.RoundVector2(child.position);
 
-            if (!Grid.Instance.InsideBorder(v)) return false;
-
-            if (Grid.grid[(int)v.x, (int)v.y] != null &&
-                Grid.grid[(int)v.x, (int)v.y].parent != transform) return false;
+            if (!Grid.Instance.InsideBorder(v) ||
+                Grid.grid[(int)v.x, (int)v.y] != null &&
+                Grid.grid[(int)v.x, (int)v.y].parent != parentTetomino) return false;
         }
 
         return true;
+    }
+
+    // 親のミノが切り替わった時に呼び出す
+    public void LinkToParent(Transform newParent)
+    {
+        parentTetomino = newParent;
+        UpdateChildOffest();
     }
 }

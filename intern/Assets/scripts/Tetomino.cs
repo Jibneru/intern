@@ -23,7 +23,7 @@ public class Tetomino : MonoBehaviour
                 Grid.Instance.DeleteFullRows();
 
                 // 新しいミノを生成
-                FindAnyObjectByType<Spawner>().SpawnNext();
+                FindAnyObjectByType<NextPiece>().SpawnNextPiece();
                 enabled = false;
             }
         }
@@ -77,7 +77,7 @@ public class Tetomino : MonoBehaviour
         Grid.Instance.DeleteFullRows();
 
         // 新しいミノを生成
-        FindAnyObjectByType<Spawner>().SpawnNext();
+        FindAnyObjectByType<NextPiece>().SpawnNextPiece();
         enabled = false;
     }
 
@@ -175,6 +175,7 @@ public class Tetomino : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.W) && canHold)
         {
             FindAnyObjectByType<HoldPiece>().Hold(gameObject);
+            canHold = false;
         }
     }
 

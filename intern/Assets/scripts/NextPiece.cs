@@ -6,12 +6,11 @@ public class NextPiece : MonoBehaviour
     // ミノのプレファブリスト
     public GameObject[] tetominoes;
 
-    // ゴーストのプレファブリスト
-    public GameObject[] ghostPrefab;
+    // ゴーストのプレファブ
+    public GameObject ghostPrefab;
 
     // 後から追加されて前から取り出したいためQueueを使用
     Queue<GameObject> nextQueue = new Queue<GameObject>();
-    Queue<GameObject> nextGhostQueue = new Queue<GameObject>();
 
     // 次のミノを表示する位置の配列
     public Transform[] previewPositions;
@@ -22,6 +21,12 @@ public class NextPiece : MonoBehaviour
     // プレビュー用のスケール
     private Vector3 previewScale = new Vector3(0.5f, 0.5f, 1.0f);
 
+    // 現在の操作ミノ(ホールドの時に使いたいためpublic)
+    [System.NonSerialized] public GameObject currentTetomino;
+
+    // ゴーストブロック
+    private GameObject ghostTetomino;
+
     private void Start()
     {
         // 初めは表示する個数分だけ生成
@@ -29,22 +34,40 @@ public class NextPiece : MonoBehaviour
         {
             AddNextPieceToQueue();
         }
-        UpdatePreviews();
+        
+        // 最初の操作ミノを生成
+        SpawnNextPiece();
     }
 
-    // キューの先頭からミノを取得
-    public GameObject GetNextPiece()
+    // 次の操作ミノを生成
+    public void SpawnNextPiece()
     {
-        GameObject next = nextQueue.Dequeue();
+        // キューから次のミノを取得
+        GameObject nextTetomino = nextQueue.Dequeue();
+        // 新しいNextミノをキューに追加
         AddNextPieceToQueue();
+
+        // 操作ミノを生成
+        CreatePiece(nextTetomino);
+
+        // ゴーストブロックの更新
+        UpdateGhostBlock();
+
         UpdatePreviews();
-        return next;
     }
 
-    public GameObject GetGhostPiece()
+    // 操作するミノを生成(ホールドから出てきた時はture)
+    public void CreatePiece(GameObject tetomino, bool isHold = false)
     {
-        GameObject ghost = nextGhostQueue.Dequeue();
-        return ghost;
+        currentTetomino = Instantiate(tetomino, transform.position, Quaternion.identity);
+
+        if (isHold)
+        {
+            currentTetomino.AddComponent<Tetomino>();
+
+            // ホールドから出たミノは再びホールドできない
+            currentTetomino.GetComponent<Tetomino>().canHold = false;
+        }
     }
 
     // キューにミノを追加
@@ -52,7 +75,6 @@ public class NextPiece : MonoBehaviour
     {
         int randomIndex = Random.Range(0, tetominoes.Length);
         nextQueue.Enqueue(tetominoes[randomIndex]);
-        nextGhostQueue.Enqueue(ghostPrefab[randomIndex]);
     }
 
     // NextPieceのプレビュー更新
@@ -82,5 +104,17 @@ public class NextPiece : MonoBehaviour
             currentPreviews.Add(preview);
             index++;
         }
+    }
+
+    // ゴーストブロックの更新
+    public void UpdateGhostBlock()
+    {
+        // ゴーストブロックを生成または更新
+        if (ghostTetomino == null)
+        {
+            ghostTetomino = Instantiate(ghostPrefab, transform.position, Quaternion.identity);
+            ghostTetomino.AddComponent<GhostBlock>();
+        }
+        ghostTetomino.GetComponent<GhostBlock>().LinkToParent(currentTetomino.transform);
     }
 }
