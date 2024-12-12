@@ -47,7 +47,7 @@ Shader "Custom/Grid"
                 uv.x = i.uv.x * 10;// 横軸の分割
                 uv.y = i.uv.y * 20;// 縦軸の分割
                 float2 gv = frac(uv);
-                // smoothstep(現在の値,目的の値 ,割合 )
+                // smoothstep(現在の値,目的の値 ,割合 ) 今回は実質太さは0.1
                 float edge_x = smoothstep(0.90, 1, gv.x);
                 float edge_y = smoothstep(0.90, 1, gv.y);
                 float value = edge_x > edge_y ? edge_x : edge_y;
