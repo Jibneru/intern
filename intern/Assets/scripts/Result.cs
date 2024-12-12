@@ -1,6 +1,7 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
+// リザルト表示用スクリプト
 public class Result : MonoBehaviour
 {
     // スコア表示用のテキスト
