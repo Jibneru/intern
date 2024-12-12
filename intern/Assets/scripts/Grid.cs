@@ -1,30 +1,30 @@
-using UnityEngine;
+ï»¿using UnityEngine;
 using UnityEngine.Assertions;
 
-// ƒeƒgƒŠƒX‚Ìƒ}ƒX–Ú‚ÌƒXƒNƒŠƒvƒg
+// ãƒ†ãƒˆãƒªã‚¹ã®ãƒã‚¹ç›®ã®ã‚¹ã‚¯ãƒªãƒ—ãƒˆ
 public class Grid : MonoBehaviour
 {
-    // ƒVƒ“ƒOƒ‹ƒgƒ“ƒCƒ“ƒXƒ^ƒ“ƒX
+    // ã‚·ãƒ³ã‚°ãƒ«ãƒˆãƒ³ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹
     public static Grid Instance { get; private set; }
 
-    // •Ç—p‚ÌƒQ[ƒ€ƒIƒuƒWƒFƒNƒg
+    // å£ç”¨ã®ã‚²ãƒ¼ãƒ ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆ
     [SerializeField] GameObject cubeBlock;
 
-    // ƒOƒŠƒbƒh‚Ì•‚Æ‚‚³
-    // Tetomino.cs‚Åg‚¢‚½‚¢‚½‚ß
+    // ã‚°ãƒªãƒƒãƒ‰ã®å¹…ã¨é«˜ã•
+    // Tetomino.csã§ä½¿ã„ãŸã„ãŸã‚
     public const int width = 10;
     public const int height = 20;
 
-    // ƒOƒŠƒbƒh‚ğŠi”[‚·‚é2ŸŒ³”z—ñ
+    // ã‚°ãƒªãƒƒãƒ‰ã‚’æ ¼ç´ã™ã‚‹2æ¬¡å…ƒé…åˆ—
     public static Transform[,] grid;
     private const float lineOffset = -0.5f;
 
     private void Awake()
     {
-        // Assert‚ÅInstance‚ª‚ ‚é‚ÆƒGƒ‰[‚ğo‚·
+        // Assertã§InstanceãŒã‚ã‚‹ã¨ã‚¨ãƒ©ãƒ¼ã‚’å‡ºã™
         Assert.IsTrue(Instance == null);
 
-        // ƒCƒ“ƒXƒ^ƒ“ƒX‚ğİ’è‚µADontDestroyOnLoad‚ÅƒV[ƒ“ŠÔ‚Å”jŠü‚³‚ê‚È‚¢‚æ‚¤‚É‚·‚é
+        // ã‚¤ãƒ³ã‚¹ã‚¿ãƒ³ã‚¹ã‚’è¨­å®šã—ã€DontDestroyOnLoadã§ã‚·ãƒ¼ãƒ³é–“ã§ç ´æ£„ã•ã‚Œãªã„ã‚ˆã†ã«ã™ã‚‹
         Instance = this;
         grid = new Transform[width, height];
         DontDestroyOnLoad(gameObject);
@@ -33,13 +33,13 @@ public class Grid : MonoBehaviour
 
     private void Start()
     {
-        // ‰¡ˆê—ñ‚É•Ç¶¬
+        // æ¨ªä¸€åˆ—ã«å£ç”Ÿæˆ
         for (int i = 0; i < width; i++)
         {
             Instantiate(cubeBlock, new Vector3(i, -1.0f, 0), Quaternion.identity);
         }
 
-        // cˆê—ñ‚É¶¬i¶‰Ej
+        // ç¸¦ä¸€åˆ—ã«ç”Ÿæˆï¼ˆå·¦å³ï¼‰
         for (int i = 0; i < height; i++)
         {
             Instantiate(cubeBlock, new Vector3(-1.0f, i - 1.0f, 0), Quaternion.identity);
@@ -50,20 +50,20 @@ public class Grid : MonoBehaviour
         }
     }
 
-    // ƒxƒNƒgƒ‹‚ğ®”‚É‚·‚é
+    // ãƒ™ã‚¯ãƒˆãƒ«ã‚’æ•´æ•°ã«ã™ã‚‹
     public Vector2 RoundVector2(Vector2 v)
     {
-        // ”’l‚ÍlÌŒÜ“ü‚µ‚Ä‚¨‚­
+        // æ•°å€¤ã¯å››æ¨äº”å…¥ã—ã¦ãŠã
         return new Vector2(Mathf.Round(v.x), Mathf.Round(v.y));
     }
 
-    // w’è‚³‚ê‚½ˆÊ’u‚ªƒOƒŠƒbƒh“à‚É‚ ‚é‚©‚ğƒ`ƒFƒbƒN
+    // æŒ‡å®šã•ã‚ŒãŸä½ç½®ãŒã‚°ãƒªãƒƒãƒ‰å†…ã«ã‚ã‚‹ã‹ã‚’ãƒã‚§ãƒƒã‚¯
     public bool InsideBorder(Vector2 pos)
     {
         return ((int)pos.x >= 0 && (int)pos.x < width && (int)pos.y >= 0);
     }
 
-    // s‚ª–„‚Ü‚Á‚Ä‚¢‚é‚©ƒ`ƒFƒbƒN
+    // è¡ŒãŒåŸ‹ã¾ã£ã¦ã„ã‚‹ã‹ãƒã‚§ãƒƒã‚¯
     private bool IsRowFull(int y)
     {
         for (int x = 0; x < width; x++)
@@ -74,7 +74,7 @@ public class Grid : MonoBehaviour
         return true;
     }
 
-    // w’è‚µ‚½s‚ğíœ
+    // æŒ‡å®šã—ãŸè¡Œã‚’å‰Šé™¤
     private void DeleteRow(int y)
     {
         for (int x = 0; x < width; x++)
@@ -84,14 +84,14 @@ public class Grid : MonoBehaviour
         }
     }
 
-    // w’è‚³‚ê‚½s‚ğ‰º‚É~‚ë‚·
+    // æŒ‡å®šã•ã‚ŒãŸè¡Œã‚’ä¸‹ã«é™ã‚ã™
     private void DescendRow(int y)
     {
         for (int x = 0; x < width; x++)
         {
             if (grid[x, y] != null)
             {
-                // ƒuƒƒbƒN‚ğˆê’i‰º‚°‚é
+                // ãƒ–ãƒ­ãƒƒã‚¯ã‚’ä¸€æ®µä¸‹ã’ã‚‹
                 grid[x, y - 1] = grid[x, y];
                 grid[x, y] = null;
                 grid[x, y - 1].position += new Vector3(0, -1, 0);
@@ -99,7 +99,7 @@ public class Grid : MonoBehaviour
         }
     }
 
-    // w’è‚³‚ê‚½s‚©‚çã‚ğ‰º‚É~‚ë‚·
+    // æŒ‡å®šã•ã‚ŒãŸè¡Œã‹ã‚‰ä¸Šã‚’ä¸‹ã«é™ã‚ã™
     private void DescendRowsAbove(int y)
     {
         for (int i = y; i < height; i++)
@@ -108,12 +108,12 @@ public class Grid : MonoBehaviour
         }
     }
 
-    // Š®‘S‚É–„‚Ü‚Á‚½s‚ğíœ‚µAã‚Ìs‚ğˆê’i‰º‚°‚é
+    // å®Œå…¨ã«åŸ‹ã¾ã£ãŸè¡Œã‚’å‰Šé™¤ã—ã€ä¸Šã®è¡Œã‚’ä¸€æ®µä¸‹ã’ã‚‹
     public void DeleteFullRows()
     {
         int heightNum = 0;
 
-        // ‰º‚©‚ç‰½”Ô–Ú‚Ìs‚ª–„‚Ü‚Á‚Ä‚¢‚é‚©‚Ìƒ`ƒFƒbƒN
+        // ä¸‹ã‹ã‚‰ä½•ç•ªç›®ã®è¡ŒãŒåŸ‹ã¾ã£ã¦ã„ã‚‹ã‹ã®ãƒã‚§ãƒƒã‚¯
         for (int y = 0; y < height; y++)
         {
             if (IsRowFull(y))
@@ -123,7 +123,7 @@ public class Grid : MonoBehaviour
             }
         }
 
-        // Œ©‚Â‚¯‚½s‚©‚çã‚ğÁ‚µ‚È‚ª‚ç‰º‚É~‚ë‚·‚Ì‚ğ–„‚Ü‚Á‚Ä‚¢‚és‚ª‚È‚­‚È‚é‚Ü‚ÅŒJ‚è•Ô‚·
+        // è¦‹ã¤ã‘ãŸè¡Œã‹ã‚‰ä¸Šã‚’æ¶ˆã—ãªãŒã‚‰ä¸‹ã«é™ã‚ã™ã®ã‚’åŸ‹ã¾ã£ã¦ã„ã‚‹è¡ŒãŒãªããªã‚‹ã¾ã§ç¹°ã‚Šè¿”ã™
         while (IsRowFull(heightNum))
         {
             DeleteRow(heightNum);
@@ -131,31 +131,40 @@ public class Grid : MonoBehaviour
         }
     }
 
-    // ƒOƒŠƒbƒhî•ñ‚ÌXV
-    public void UpdateGrid(Transform t)
+    // ç‰¹å®šã®ã‚°ãƒªãƒƒãƒ‰æƒ…å ±ã‚’å‰Šé™¤
+    public void ClearGrid(Transform Clear)
     {
         for (int y = 0; y < height; y++)
         {
             for (int x = 0; x < width; x++)
             {
+                // ã‚°ãƒªãƒƒãƒ‰ã®ã‚»ãƒ«ã«ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆãŒã‚ã‚‹ã‹ã®ãƒã‚§ãƒƒã‚¯
                 if (grid[x, y] != null)
                 {
-                    if (grid[x, y].parent == t)
+                    // ã‚°ãƒªãƒƒãƒ‰å†…ã®ã‚ªãƒ–ã‚¸ã‚§ã‚¯ãƒˆã®è¦ªãŒæŒ‡å®šã•ã‚Œã‚‹
+                    if (grid[x, y].parent == Clear)
                     {
+                        // ã‚°ãƒªãƒƒãƒ‰æƒ…å ±ã‚’ã‚¯ãƒªã‚¢
                         grid[x, y] = null;
                     }
                 }
             }
         }
+    }
 
-        foreach (Transform child in t)
+    // ã‚°ãƒªãƒƒãƒ‰æƒ…å ±ã®æ›´æ–°
+    public void UpdateGrid(Transform nowTransform)
+    {
+        ClearGrid(nowTransform);
+
+        foreach (Transform child in nowTransform)
         {
             Vector2 v = RoundVector2(child.position);
             grid[(int)v.x, (int)v.y] = child;
         }
     }
 
-    // ‹«ŠEü‚ğ•`‰æ‚·‚éƒƒ\ƒbƒh
+    // å¢ƒç•Œç·šã‚’æç”»ã™ã‚‹ãƒ¡ã‚½ãƒƒãƒ‰
     private void OnDrawGizmos()
     {
         Gizmos.color = Color.red;

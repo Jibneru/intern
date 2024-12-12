@@ -7,6 +7,9 @@ public class Tetomino : MonoBehaviour
     private float fall = 0;
     private float fallSpeed = 1;
 
+    // ホールド可能か
+    public bool canHold = true;
+
     private void Update()
     {
         CheckUserInput();
@@ -167,6 +170,11 @@ public class Tetomino : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.LeftShift))
         {
             HardDrop();
+        }
+        // Wキーが押されたとき
+        else if (Input.GetKeyDown(KeyCode.W) && canHold)
+        {
+            FindAnyObjectByType<HoldPiece>().Hold(gameObject);
         }
     }
 
