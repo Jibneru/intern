@@ -128,6 +128,8 @@ public class Grid : MonoBehaviour
         {
             DeleteRow(heightNum);
             DescendRowsAbove(heightNum);
+
+            ScoreManager.Instance.AddScore(100);
         }
     }
 
