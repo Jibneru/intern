@@ -66,11 +66,11 @@ public class ScoreManager : MonoBehaviour
     {
         if (PlayerPrefs.HasKey(HighScoreKey))
         {
-            PlayerPrefs.GetInt(HighScoreKey, Score.highScore);
+            PlayerPrefs.GetInt(HighScoreKey, highScore);
         }
         else
         {
-            Score.highScore = 0;
+            highScore = 0;
         }
     }
 
@@ -79,6 +79,6 @@ public class ScoreManager : MonoBehaviour
     public void ResetHighScore()
     {
         PlayerPrefs.DeleteKey(HighScoreKey);
-        Score.highScore = 0;
+        highScore = 0;
     }
 }
