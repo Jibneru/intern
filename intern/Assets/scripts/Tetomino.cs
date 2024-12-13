@@ -23,7 +23,7 @@ public class Tetomino : MonoBehaviour
                 Grid.Instance.DeleteFullRows();
 
                 // 新しいミノを生成
-                FindAnyObjectByType<Spawner>().SpawnNext();
+                FindAnyObjectByType<NextPiece>().SpawnNextPiece();
                 enabled = false;
             }
         }
@@ -77,7 +77,7 @@ public class Tetomino : MonoBehaviour
         Grid.Instance.DeleteFullRows();
 
         // 新しいミノを生成
-        FindAnyObjectByType<Spawner>().SpawnNext();
+        FindAnyObjectByType<NextPiece>().SpawnNextPiece();
         enabled = false;
     }
 
@@ -100,6 +100,7 @@ public class Tetomino : MonoBehaviour
             {
                 // 位置が有効ならグリッドを更新
                 Grid.Instance.UpdateGrid(transform);
+                FindAnyObjectByType<GhostBlock>().UpdateGhostPosition();
             }
                 
         }
@@ -119,6 +120,7 @@ public class Tetomino : MonoBehaviour
             {
                 // 位置が有効ならグリッドを更新
                 Grid.Instance.UpdateGrid(transform);
+                FindAnyObjectByType<GhostBlock>().UpdateGhostPosition();
             }
         }
         // Eキーが押されたとき
@@ -137,6 +139,7 @@ public class Tetomino : MonoBehaviour
             {
                 // 位置が有効ならグリッドを更新
                 Grid.Instance.UpdateGrid(transform);
+                FindAnyObjectByType<GhostBlock>().UpdateGhostPosition();
             }
         }
         // Qキーが押されたとき
@@ -155,6 +158,7 @@ public class Tetomino : MonoBehaviour
             {
                 // 位置が有効ならグリッドを更新
                 Grid.Instance.UpdateGrid(transform);
+                FindAnyObjectByType<GhostBlock>().UpdateGhostPosition();
             }
         }
         // Sキーが押されたとき（ソフトドロップ）
@@ -175,6 +179,7 @@ public class Tetomino : MonoBehaviour
         else if (Input.GetKeyDown(KeyCode.W) && canHold)
         {
             FindAnyObjectByType<HoldPiece>().Hold(gameObject);
+            canHold = false;
         }
     }
 

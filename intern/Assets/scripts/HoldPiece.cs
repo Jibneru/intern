@@ -9,6 +9,8 @@ public class HoldPiece : MonoBehaviour
     // ホールド位置
     [SerializeField] Transform hodlPosition;
 
+    public NextPiece nextPiece;
+
     public void Hold(GameObject currentTetomino)
     {
         // グリッドから現在のミノの情報を削除
@@ -22,7 +24,7 @@ public class HoldPiece : MonoBehaviour
             Destroy(currentTetomino.GetComponent<Tetomino>());
 
             // 新しいミノを生成
-            FindAnyObjectByType<Spawner>().SpawnNext();
+            nextPiece.SpawnNextPiece();
         }
         // ホールド済みのミノがある場合
         else
@@ -37,13 +39,10 @@ public class HoldPiece : MonoBehaviour
             currentTetomino.transform.position = hodlPosition.position;
             Destroy(currentTetomino.GetComponent<Tetomino>());
 
-            // ホールドから出たミノを生成
-            GameObject spawnedMino = Instantiate(temp, FindAnyObjectByType<Spawner>().transform.position, Quaternion.identity);
-            spawnedMino.AddComponent<Tetomino>();
-            Tetomino spawnedScript  = spawnedMino.GetComponent<Tetomino>();
+            // ホールドから出たミノを操作ミノに登録
+            nextPiece.CreatePiece(temp, true);
 
-            // ホールドから出たミノは再びホールドできない
-            spawnedScript.canHold = false;
+            nextPiece.UpdateGhostBlock();
         }
     }
 }
