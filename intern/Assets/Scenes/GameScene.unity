@@ -773,6 +773,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cubeBlock: {fileID: 568720071723421560, guid: b9d5a9bb71dccb9449118988b19ea747, type: 3}
+  clearParticles: {fileID: 5477007408441323929, guid: 9592bdd17cf9dda48883a9302d77b99e, type: 3}
 --- !u!1 &1978716780
 GameObject:
   m_ObjectHideFlags: 0

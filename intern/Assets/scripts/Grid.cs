@@ -19,6 +19,8 @@ public class Grid : MonoBehaviour
     public static Transform[,] grid;
     private const float lineOffset = -0.5f;
 
+    [SerializeField] ParticleSystem clearParticles;
+
     private void Awake()
     {
         // AssertでInstanceがあるとエラーを出す
@@ -77,6 +79,12 @@ public class Grid : MonoBehaviour
     {
         for (int x = 0; x < width; x++)
         {
+            Vector3 particlePosition = grid[x, y].position;
+            // mainのモジュールから色設定
+            // 消すミノの色で表示
+            var main = clearParticles.main;
+            main.startColor = grid[x, y].gameObject.GetComponent<SpriteRenderer>().color;
+            Instantiate(clearParticles, particlePosition, Quaternion.identity);
             Destroy(grid[x, y].gameObject);
             grid[x, y] = null;
         }
