@@ -1,6 +1,5 @@
 ﻿using System.Diagnostics;
 using UnityEngine;
-using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.UI;
 
 public class ScoreManager : MonoBehaviour
