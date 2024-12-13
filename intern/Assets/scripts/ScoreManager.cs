@@ -3,24 +3,22 @@ using UnityEngine;
 using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.UI;
 
-public static class Score
-{
-    public static int score;
-    public static int highScore;
-}
-
 public class ScoreManager : MonoBehaviour
 {
     // PlayerPrefsで使用するキー
+    private const string ScoreKey = "Score";
     private const string HighScoreKey = "HighScore";
 
     // スコア表示用のテキスト
     [SerializeField] Text scoreText;
     [SerializeField] Text highScoreText;
 
+    public int score;
+    public int highScore;
+
     private void Start()
     {
-        Score.score = 0;
+        score = 0;
         LoadHighScore();
         UpdateScoreText();
     }
@@ -36,11 +34,13 @@ public class ScoreManager : MonoBehaviour
     // スコアを加算
     public void AddScore(int points)
     {
-        Score.score += points;
+        score += points;
+        PlayerPrefs.SetInt(ScoreKey, score);
+        PlayerPrefs.Save();
 
-        if (Score.score > Score.highScore)
+        if (score > highScore)
         {
-            Score.highScore = Score.score;
+            highScore = score;
             SaveHighScore();
         }
 
@@ -50,14 +50,14 @@ public class ScoreManager : MonoBehaviour
     // スコアの表示更新
     private void UpdateScoreText()
     {
-        scoreText.text = "Score: " + Score.score.ToString();
-        highScoreText.text = "High Score: " + Score.highScore.ToString();
+        scoreText.text = "Score: " + score.ToString();
+        highScoreText.text = "High Score: " + highScore.ToString();
     }
 
     // 最大スコアを保存
     private void SaveHighScore()
     {
-        PlayerPrefs.SetInt(HighScoreKey, Score.highScore);
+        PlayerPrefs.SetInt(HighScoreKey, highScore);
         PlayerPrefs.Save();
     }
 
