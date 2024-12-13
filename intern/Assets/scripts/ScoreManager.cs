@@ -13,8 +13,8 @@ public class ScoreManager : MonoBehaviour
     [SerializeField] Text scoreText;
     [SerializeField] Text highScoreText;
 
-    [System.NonSerialized] int score;
-    [System.NonSerialized] int highScore;
+    private int score;
+    private int highScore;
 
     private void Start()
     {
