@@ -13,12 +13,13 @@ public class ScoreManager : MonoBehaviour
     [SerializeField] Text scoreText;
     [SerializeField] Text highScoreText;
 
-    public int score;
-    public int highScore;
+    [System.NonSerialized] int score;
+    [System.NonSerialized] int highScore;
 
     private void Start()
     {
         score = 0;
+        PlayerPrefs.SetInt(ScoreKey, score);
         LoadHighScore();
         UpdateScoreText();
     }
@@ -36,7 +37,6 @@ public class ScoreManager : MonoBehaviour
     {
         score += points;
         PlayerPrefs.SetInt(ScoreKey, score);
-        PlayerPrefs.Save();
 
         if (score > highScore)
         {
@@ -58,7 +58,6 @@ public class ScoreManager : MonoBehaviour
     private void SaveHighScore()
     {
         PlayerPrefs.SetInt(HighScoreKey, highScore);
-        PlayerPrefs.Save();
     }
 
     // 最大スコアを読み込む
@@ -66,7 +65,7 @@ public class ScoreManager : MonoBehaviour
     {
         if (PlayerPrefs.HasKey(HighScoreKey))
         {
-            PlayerPrefs.GetInt(HighScoreKey, highScore);
+            highScore = PlayerPrefs.GetInt(HighScoreKey);
         }
         else
         {

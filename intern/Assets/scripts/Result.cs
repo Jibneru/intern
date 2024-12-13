@@ -12,14 +12,9 @@ public class Result : MonoBehaviour
     [SerializeField] Text scoreText;
     [SerializeField] Text highScoreText;
 
-    public int score;
-    public int highScore;
-
     private void Start()
     {
-        PlayerPrefs.GetInt(ScoreKey, score);
-        PlayerPrefs.GetInt(HighScoreKey, highScore);
-        scoreText.text = "Score:" + score.ToString();
-        highScoreText.text = "High Score:" + highScore.ToString();
+        scoreText.text = "Score:" + PlayerPrefs.GetInt(ScoreKey).ToString();
+        highScoreText.text = "High Score:" + PlayerPrefs.GetInt(HighScoreKey).ToString();
     }
 }
