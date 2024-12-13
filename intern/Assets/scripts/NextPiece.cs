@@ -61,6 +61,14 @@ public class NextPiece : MonoBehaviour
     {
         currentTetomino = Instantiate(tetomino, transform.position, Quaternion.identity);
 
+        if (!IsValidGridPos(currentTetomino.transform))
+        {
+            FindAnyObjectByType<SceneLoad>().SceneLoading();
+            Destroy(currentTetomino);
+            Destroy(ghostTetomino);
+            return;
+        }
+
         if (isHold)
         {
             currentTetomino.AddComponent<Tetomino>();
@@ -116,5 +124,20 @@ public class NextPiece : MonoBehaviour
             ghostTetomino.AddComponent<GhostBlock>();
         }
         ghostTetomino.GetComponent<GhostBlock>().LinkToParent(currentTetomino.transform);
+    }
+
+    // 新しいミノの場所にミノが設置されているか
+    private bool IsValidGridPos(Transform newTransform)
+    {
+        foreach (Transform child in newTransform)
+        {
+            Vector2 v = Grid.Instance.RoundVector2(child.position);
+
+            if (!Grid.Instance.InsideBorder(v)) return false;
+
+            if (Grid.grid[(int)v.x, (int)v.y] != null) return false;
+        }
+
+        return true;
     }
 }

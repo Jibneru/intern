@@ -27,8 +27,6 @@ public class Grid : MonoBehaviour
         // インスタンスを設定し、DontDestroyOnLoadでシーン間で破棄されないようにする
         Instance = this;
         grid = new Transform[width, height];
-        DontDestroyOnLoad(gameObject);
-
     }
 
     private void Start()
@@ -40,11 +38,11 @@ public class Grid : MonoBehaviour
         }
 
         // 縦一列に生成（左右）
-        for (int i = 0; i < height; i++)
+        for (int i = 0; i <= height; i++)
         {
             Instantiate(cubeBlock, new Vector3(-1.0f, i - 1.0f, 0), Quaternion.identity);
         }
-        for (int i = 0; i < height; i++)
+        for (int i = 0; i <= height; i++)
         {
             Instantiate(cubeBlock, new Vector3(width, i - 1.0f, 0), Quaternion.identity);
         }
@@ -79,6 +77,7 @@ public class Grid : MonoBehaviour
     {
         for (int x = 0; x < width; x++)
         {
+            Vector3 particlePosition = grid[x, y].position;
             Destroy(grid[x, y].gameObject);
             grid[x, y] = null;
         }
@@ -128,6 +127,8 @@ public class Grid : MonoBehaviour
         {
             DeleteRow(heightNum);
             DescendRowsAbove(heightNum);
+
+            FindAnyObjectByType<ScoreManager>().AddScore(100);
         }
     }
 

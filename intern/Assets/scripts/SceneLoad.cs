@@ -1,20 +1,29 @@
-using System.Collections;
-using UnityEngine;
+ï»¿using UnityEngine;
 using UnityEngine.SceneManagement;
 
-// ƒV[ƒ“Ø‚è‘Ö‚¦‚ğs‚¤ƒXƒNƒŠƒvƒg
+// ã‚·ãƒ¼ãƒ³åˆ‡ã‚Šæ›¿ãˆã‚’è¡Œã†ã‚¹ã‚¯ãƒªãƒ—ãƒˆ
 public class SceneLoad : MonoBehaviour
 {
-    // ƒV[ƒ“‚Ì–¼‘O‚ğ“ü—Í‚·‚é
+    // ã‚·ãƒ¼ãƒ³ã®åå‰ã‚’å…¥åŠ›ã™ã‚‹
     [SerializeField] string sceneName;
 
-    private async void Update()
+    [SerializeField] bool isPushKey = true;
+
+    private void Update()
     {
-        // ‰¼‚ÅƒXƒy[ƒX‚ğ‰Ÿ‚µ‚½‚Æ‚«‚ÉƒV[ƒ“‚ğØ‚è‘Ö‚¦‚é
-        if (Input.GetKeyDown(KeyCode.Space))
+        if (isPushKey)
         {
-            // Š®—¹‚·‚é‚Ü‚ÅÀs‚ğ’†’f‚µ‚È‚ª‚çƒ[ƒh‚·‚é
-            await SceneManager.LoadSceneAsync(sceneName);
+            // ä»®ã§ã‚¹ãƒšãƒ¼ã‚¹ã‚’æŠ¼ã—ãŸã¨ãã«ã‚·ãƒ¼ãƒ³ã‚’åˆ‡ã‚Šæ›¿ãˆã‚‹
+            if (Input.GetKeyDown(KeyCode.Mouse0) || Input.GetKeyDown(KeyCode.Return))
+            {
+                // å®Œäº†ã™ã‚‹ã¾ã§å®Ÿè¡Œã‚’ä¸­æ–­ã—ãªãŒã‚‰ãƒ­ãƒ¼ãƒ‰ã™ã‚‹
+                SceneLoading();
+            }
         }
+    }
+
+    public async void SceneLoading()
+    {
+        await SceneManager.LoadSceneAsync(sceneName);
     }
 }
