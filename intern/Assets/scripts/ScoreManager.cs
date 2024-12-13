@@ -63,14 +63,7 @@ public class ScoreManager : MonoBehaviour
     // 最大スコアを読み込む
     private void LoadHighScore()
     {
-        if (PlayerPrefs.HasKey(HighScoreKey))
-        {
-            highScore = PlayerPrefs.GetInt(HighScoreKey);
-        }
-        else
-        {
-            highScore = 0;
-        }
+        highScore = PlayerPrefs.GetInt(HighScoreKey, 0);
     }
 
     // 最大スコアをリセット
