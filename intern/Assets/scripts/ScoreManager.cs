@@ -20,6 +20,7 @@ public class ScoreManager : MonoBehaviour
 
     private void Start()
     {
+        Score.score = 0;
         LoadHighScore();
         UpdateScoreText();
     }
@@ -65,7 +66,7 @@ public class ScoreManager : MonoBehaviour
     {
         if (PlayerPrefs.HasKey(HighScoreKey))
         {
-            Score.highScore = PlayerPrefs.GetInt(HighScoreKey);
+            PlayerPrefs.GetInt(HighScoreKey, Score.highScore);
         }
         else
         {
