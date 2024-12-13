@@ -27,8 +27,6 @@ public class Grid : MonoBehaviour
         // インスタンスを設定し、DontDestroyOnLoadでシーン間で破棄されないようにする
         Instance = this;
         grid = new Transform[width, height];
-        DontDestroyOnLoad(gameObject);
-
     }
 
     private void Start()
