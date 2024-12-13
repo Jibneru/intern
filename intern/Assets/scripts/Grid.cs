@@ -80,14 +80,11 @@ public class Grid : MonoBehaviour
         for (int x = 0; x < width; x++)
         {
             Vector3 particlePosition = grid[x, y].position;
-<<<<<<< HEAD
             // mainのモジュールから色設定
             // 消すミノの色で表示
             var main = clearParticles.main;
             main.startColor = grid[x, y].gameObject.GetComponent<SpriteRenderer>().color;
             Instantiate(clearParticles, particlePosition, Quaternion.identity);
-=======
->>>>>>> develop
             Destroy(grid[x, y].gameObject);
             grid[x, y] = null;
         }
