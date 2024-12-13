@@ -5,13 +5,12 @@ using UnityEngine.UI;
 public class Result : MonoBehaviour
 {
     // スコア表示用のテキスト
-    public Text scoreText;
-    private int scoreResult;
+    [SerializeField] Text scoreText;
+    [SerializeField] Text highScoreText;
 
     private void Start()
     {
-        scoreResult = ScoreManager.Instance.GetScore();
-
-        scoreText.text = "Score:" + scoreResult.ToString();
+        scoreText.text = "Score:" + Score.score.ToString();
+        highScoreText.text = "High Score:" + Score.highScore.ToString();
     }
 }

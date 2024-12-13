@@ -27,8 +27,6 @@ public class Grid : MonoBehaviour
         // インスタンスを設定し、DontDestroyOnLoadでシーン間で破棄されないようにする
         Instance = this;
         grid = new Transform[width, height];
-        DontDestroyOnLoad(gameObject);
-
     }
 
     private void Start()
@@ -79,6 +77,7 @@ public class Grid : MonoBehaviour
     {
         for (int x = 0; x < width; x++)
         {
+            Vector3 particlePosition = grid[x, y].position;
             Destroy(grid[x, y].gameObject);
             grid[x, y] = null;
         }
@@ -129,7 +128,7 @@ public class Grid : MonoBehaviour
             DeleteRow(heightNum);
             DescendRowsAbove(heightNum);
 
-            ScoreManager.Instance.AddScore(100);
+            FindAnyObjectByType<ScoreManager>().AddScore(100);
         }
     }
 
