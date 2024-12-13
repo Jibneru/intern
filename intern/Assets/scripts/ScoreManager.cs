@@ -1,45 +1,76 @@
-﻿using UnityEngine;
+﻿using System.Diagnostics;
+using UnityEngine;
+using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.UI;
 
 public class ScoreManager : MonoBehaviour
 {
-    // シングルトンインスタンス
-    public static ScoreManager Instance { get; private set; }
+    // PlayerPrefsで使用するキー
+    private const string ScoreKey = "Score";
+    private const string HighScoreKey = "HighScore";
 
     // スコア表示用のテキスト
-    public Text scoreText;
-    private int score;
+    [SerializeField] Text scoreText;
+    [SerializeField] Text highScoreText;
 
-    private void Awake()
-    {
-        // インスタンスを設定
-        Instance = this;
-    }
+    private int score;
+    private int highScore;
 
     private void Start()
     {
+        score = 0;
+        PlayerPrefs.SetInt(ScoreKey, score);
+        LoadHighScore();
         UpdateScoreText();
+    }
+
+    private void Update()
+    {
+        if (Input.GetKeyDown(KeyCode.Return))
+        {
+            ResetHighScore();
+        }
     }
 
     // スコアを加算
     public void AddScore(int points)
     {
         score += points;
+        PlayerPrefs.SetInt(ScoreKey, score);
+
+        if (score > highScore)
+        {
+            highScore = score;
+            SaveHighScore();
+        }
+
         UpdateScoreText();
     }
 
     // スコアの表示更新
     private void UpdateScoreText()
     {
-        if (scoreText != null)
-        {
-            scoreText.text = "Score: " + score.ToString();
-        }
+        scoreText.text = "Score: " + score.ToString();
+        highScoreText.text = "High Score: " + highScore.ToString();
     }
 
-    // 現在のスコアを取得
-    public int GetScore()
+    // 最大スコアを保存
+    private void SaveHighScore()
     {
-        return score;
+        PlayerPrefs.SetInt(HighScoreKey, highScore);
+    }
+
+    // 最大スコアを読み込む
+    private void LoadHighScore()
+    {
+        highScore = PlayerPrefs.GetInt(HighScoreKey, 0);
+    }
+
+    // 最大スコアをリセット
+    [Conditional("UNITY_EDITOR")]
+    public void ResetHighScore()
+    {
+        PlayerPrefs.DeleteKey(HighScoreKey);
+        highScore = 0;
     }
 }

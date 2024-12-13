@@ -4,14 +4,17 @@ using UnityEngine.UI;
 // リザルト表示用スクリプト
 public class Result : MonoBehaviour
 {
+    // PlayerPrefsで使用するキー
+    private const string ScoreKey = "Score";
+    private const string HighScoreKey = "HighScore";
+
     // スコア表示用のテキスト
-    public Text scoreText;
-    private int scoreResult;
+    [SerializeField] Text scoreText;
+    [SerializeField] Text highScoreText;
 
     private void Start()
     {
-        scoreResult = ScoreManager.Instance.GetScore();
-
-        scoreText.text = "Score:" + scoreResult.ToString();
+        scoreText.text = "Score:" + PlayerPrefs.GetInt(ScoreKey).ToString();
+        highScoreText.text = "High Score:" + PlayerPrefs.GetInt(HighScoreKey).ToString();
     }
 }

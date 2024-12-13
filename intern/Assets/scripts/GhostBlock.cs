@@ -9,10 +9,6 @@ public class GhostBlock : MonoBehaviour
     private void Start()
     {
         UpdateChildOffest();
-    }
-
-    private void Update()
-    {
         UpdateGhostPosition();
     }
 
@@ -27,7 +23,7 @@ public class GhostBlock : MonoBehaviour
     }
     
     // ゴーストブロックを一番下まで移動させる
-    private void UpdateGhostPosition()
+    public void UpdateGhostPosition()
     {
         // ミノの現在位置を基準
         transform.position = parentTetomino.transform.position;
@@ -61,5 +57,6 @@ public class GhostBlock : MonoBehaviour
     {
         parentTetomino = newParent;
         UpdateChildOffest();
+        UpdateGhostPosition();
     }
 }
