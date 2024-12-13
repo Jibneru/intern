@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Diagnostics;
+using UnityEngine;
 using UnityEngine.SocialPlatforms.Impl;
 using UnityEngine.UI;
 
@@ -73,6 +74,7 @@ public class ScoreManager : MonoBehaviour
     }
 
     // 最大スコアをリセット
+    [Conditional("UNITY_EDITOR")]
     public void ResetHighScore()
     {
         PlayerPrefs.DeleteKey(HighScoreKey);
